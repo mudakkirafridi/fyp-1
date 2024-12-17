@@ -6,22 +6,22 @@ import 'package:students_complaint_app/utils/constants/sizes.dart';
 class DashboardContainer extends StatelessWidget {
   final String imageUrl;
   final String title;
-  final double customHeight,customWidth;
+  final double customHeight, customWidth;
   final VoidCallback onTap;
 
   const DashboardContainer({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.title,
     required this.customHeight,
     required this.customWidth,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -35,7 +35,7 @@ class DashboardContainer extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.3),
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 3), // Shadow position
+                offset: const Offset(0, 3), // Shadow position
               ),
             ],
           ),
@@ -50,14 +50,14 @@ class DashboardContainer extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-             CAppText(
-                        text: title,
-                        fontSize: CSizes.fontSizeSm * 0.8,
-                        color: CColors.darkerGrey,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1,
-                        textAlign: TextAlign.center,
-                      ),
+              CAppText(
+                text: title,
+                fontSize: CSizes.fontSizeSm * 0.8,
+                color: CColors.darkerGrey,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),

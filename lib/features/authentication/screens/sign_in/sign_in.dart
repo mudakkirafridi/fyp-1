@@ -22,7 +22,7 @@ class SignInScreen extends StatelessWidget {
           Column(
             children: [
               // Green background (Header)
-             const HeaderGreenContainerSignIn(),
+              const HeaderGreenContainerSignIn(),
               // White background for the form container
               Expanded(
                 child: Container(
@@ -36,62 +36,62 @@ class SignInScreen extends StatelessWidget {
           // Main Form and Register Section (Scrollable)
           Positioned.fill(
             // Ensures form starts below the logo
-            top: MediaQuery.of(context).size.height * 0.15, 
+            top: MediaQuery.of(context).size.height * 0.18,
             // Scrollable content
-            child: SingleChildScrollView( 
+            child: SingleChildScrollView(
               padding: EdgeInsets.only(
                 // Adjust for keyboard
-                bottom: MediaQuery.of(context).viewInsets.bottom, 
+                bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(CSizes.defaultSpace),
                 // header text, welcome/ gpgc/cms
                 child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Welcome Texts
-        Center(
-          child: CAppText(
-            text: CTexts.welcomeText,          
-              fontSize: 24,
-              color: Theme.of(context).colorScheme.primary,
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.w300,           
-          ),
-        ),
-        Center(
-          child: CAppText(
-            text:CTexts.gpgcText,           
-              fontSize: 18,
-              color: Theme.of(context).colorScheme.primary,
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        Center(
-          child: CAppText(
-           text:  CTexts.cmsText,
-            textAlign: TextAlign.center,
-              fontSize: 18,
-              color: Theme.of(context).colorScheme.primary,
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.w300,
-          ),
-        ),
-        const SizedBox(height: CSizes.spaceBtwSections),
-        // Login Form
-       const FormSignIn(),
-        const SizedBox(height: CSizes.spaceBtwItems / 2),
-        // Forget Password Link
-      const  ForgetPasswordSignIn(),
-        const SizedBox(height: CSizes.spaceBtwSections),
-        // Login Button
-      const  SignInElevatedButton(),
-        const SizedBox(height: CSizes.spaceBtwSections / 2),
-        // Register Section
-       const RegistrationSectionSignIn(),
-      ],
-    ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Welcome Texts
+                    Center(
+                      child: CAppText(
+                        text: CTexts.welcomeText,
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.primary,
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    Center(
+                      child: CAppText(
+                        text: CTexts.gpgcText,
+                        fontSize: 18,
+                        color: Theme.of(context).colorScheme.primary,
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Center(
+                      child: CAppText(
+                        text: CTexts.cmsText,
+                        textAlign: TextAlign.center,
+                        fontSize: 18,
+                        color: Theme.of(context).colorScheme.primary,
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    const SizedBox(height: CSizes.spaceBtwSections),
+                    // Login Form
+                    const FormSignIn(),
+                    const SizedBox(height: CSizes.spaceBtwItems / 2),
+                    // Forget Password Link
+                    const ForgetPasswordSignIn(),
+                    const SizedBox(height: CSizes.spaceBtwSections),
+                    // Login Button
+                    const SignInElevatedButton(),
+                    const SizedBox(height: CSizes.spaceBtwSections / 2),
+                    // Register Section
+                    const RegistrationSectionSignIn(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -100,13 +100,3 @@ class SignInScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-

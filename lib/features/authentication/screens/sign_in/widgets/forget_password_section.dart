@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:students_complaint_app/features/authentication/screens/sign_in/forget_password/forget_password.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
+import 'package:students_complaint_app/utils/constants/text_strings.dart';
 
 class ForgetPasswordSignIn extends StatelessWidget {
   const ForgetPasswordSignIn({
@@ -11,9 +14,9 @@ class ForgetPasswordSignIn extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: TextButton(
-        onPressed: () {},
+        onPressed: () => Get.to(() => const ForgetPasswordScreen()),
         child: Text(
-          'Forget Password?',
+          CTexts.forgetPassword,
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSecondaryContainer,
             fontSize: CSizes.fontSizeSm,

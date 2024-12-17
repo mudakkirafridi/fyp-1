@@ -7,13 +7,16 @@ class CTextFormFieldTheme {
 
   static InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
     errorMaxLines: 3,
-    prefixIconColor: CColors.grey,
-    suffixIconColor: CColors.grey,
+    prefixIconColor: CColors.darkerGrey,
+    suffixIconColor: CColors.darkerGrey,
     // constraints: const BoxConstraints.expand(height: TSizes.inputFieldHeight),
-    labelStyle: const TextStyle().copyWith(fontSize: CSizes.fontSizeSm, color: CColors.grey),
-    hintStyle: const TextStyle().copyWith(fontSize: CSizes.fontSizeSm, color: CColors.grey),
+    labelStyle: const TextStyle()
+        .copyWith(fontSize: CSizes.fontSizeSm, color: CColors.darkerGrey),
+    hintStyle: const TextStyle()
+        .copyWith(fontSize: CSizes.fontSizeSm, color: CColors.darkerGrey),
     errorStyle: const TextStyle().copyWith(fontStyle: FontStyle.normal),
-    floatingLabelStyle: const TextStyle().copyWith(color: CColors.grey.withOpacity(0.8)),
+    floatingLabelStyle:
+        const TextStyle().copyWith(color: CColors.grey.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(CSizes.inputFieldRadius),
       borderSide: const BorderSide(width: 1, color: CColors.grey),
@@ -22,7 +25,7 @@ class CTextFormFieldTheme {
       borderRadius: BorderRadius.circular(CSizes.inputFieldRadius),
       borderSide: const BorderSide(width: 1, color: CColors.grey),
     ),
-    focusedBorder:const OutlineInputBorder().copyWith(
+    focusedBorder: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(CSizes.inputFieldRadius),
       borderSide: const BorderSide(width: 1, color: CColors.dark),
     ),
@@ -41,9 +44,12 @@ class CTextFormFieldTheme {
     prefixIconColor: CColors.grey,
     suffixIconColor: CColors.grey,
     // constraints: const BoxConstraints.expand(height: CSizes.inputFieldHeight),
-    labelStyle: const TextStyle().copyWith(fontSize: CSizes.fontSizeSm, color: CColors.white),
-    hintStyle: const TextStyle().copyWith(fontSize: CSizes.fontSizeSm, color: CColors.white),
-    floatingLabelStyle: const TextStyle().copyWith(color: CColors.white.withOpacity(0.8)),
+    labelStyle: const TextStyle()
+        .copyWith(fontSize: CSizes.fontSizeSm, color: CColors.white),
+    hintStyle: const TextStyle()
+        .copyWith(fontSize: CSizes.fontSizeSm, color: CColors.white),
+    floatingLabelStyle:
+        const TextStyle().copyWith(color: CColors.white.withOpacity(0.8)),
     border: const OutlineInputBorder().copyWith(
       borderRadius: BorderRadius.circular(CSizes.inputFieldRadius),
       borderSide: const BorderSide(width: 1, color: CColors.darkGrey),

@@ -22,6 +22,7 @@ class CTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.keyboardType = TextInputType.text,
+    required Function(dynamic value) onChanged,
   });
 
   @override
@@ -36,12 +37,12 @@ class CTextFormField extends StatelessWidget {
         hintText: hint,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
-         hintStyle:const TextStyle(color: CColors.grey,fontSize: CSizes.fontSizeSm),      
-        labelStyle: const TextStyle(fontSize: CSizes.fontSizeSm,color: CColors.grey),
+        hintStyle:
+            const TextStyle(color: CColors.grey, fontSize: CSizes.fontSizeSm),
+        labelStyle:
+            const TextStyle(fontSize: CSizes.fontSizeSm, color: CColors.grey),
         errorStyle: const TextStyle(fontSize: 10),
-        
       ),
     );
   }
 }
-

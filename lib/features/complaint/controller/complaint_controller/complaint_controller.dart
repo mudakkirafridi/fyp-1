@@ -6,14 +6,13 @@ class ComplaintsController extends GetxController {
   // Observable instance of ComplaintModel, which keeps track of complaint data
   var complaintModel = ComplaintModel(title: "").obs;
   // variable to observe the expension of floating actoin button
-   // Observable variable to track expansion state
+  // Observable variable to track expansion state
   var isExpanded = false.obs;
 
   // Method to toggle the expansion state
   void toggleFab() {
     isExpanded.value = !isExpanded.value;
   }
-  
 
   // Initialize counts with default values
   var openCount = 0.obs;
@@ -42,20 +41,20 @@ class ComplaintsController extends GetxController {
     try {
       // Simulate API call or database fetch here, e.g.,
       // var data = await ComplaintService.getComplaints();
-      
+
       // Example dummy data
       updateComplaintCounts(5, 10, 2);
       updateFeedbackCounts(3, 1, 6);
     } catch (e) {
       // Handle error
-      print("Error fetching complaints data: $e");
+      // print("Error fetching complaints data: $e");
     }
   }
 
   // Method to add a new complaint
   void addComplaint(String title, String description) {
     // This would typically involve sending data to the backend
-    print("Complaint added with title: $title and description: $description");
+    // print("Complaint added with title: $title and description: $description");
   }
 
   // Method to handle user feedback on complaints

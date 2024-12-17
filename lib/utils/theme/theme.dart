@@ -18,7 +18,8 @@ class CAppTheme {
     colorScheme: CColorsScheme.lightColorScheme, // Use light color scheme
     textTheme: CTextTheme.lightTextTheme,
     chipTheme: CChipTheme.lightChipTheme,
-    scaffoldBackgroundColor: CColorsScheme.lightColorScheme.surface, // Use background from ColorScheme
+    scaffoldBackgroundColor: CColorsScheme
+        .lightColorScheme.surface, // Use background from ColorScheme
     checkboxTheme: CCheckboxTheme.lightCheckboxTheme,
     appBarTheme: CAppBarTheme.lightAppBarTheme,
     bottomSheetTheme: CBottomSheetTheme.lightBottomSheetTheme,
@@ -33,7 +34,8 @@ class CAppTheme {
     colorScheme: CColorsScheme.darkColorScheme, // Use dark color scheme
     textTheme: CTextTheme.darkTextTheme,
     chipTheme: CChipTheme.darkChipTheme,
-    scaffoldBackgroundColor: CColorsScheme.darkColorScheme.surface, // Use background from ColorScheme
+    scaffoldBackgroundColor: CColorsScheme
+        .darkColorScheme.surface, // Use background from ColorScheme
     checkboxTheme: CCheckboxTheme.darkCheckboxTheme,
     appBarTheme: CAppBarTheme.darkAppBarTheme,
     bottomSheetTheme: CBottomSheetTheme.darkBottomSheetTheme,

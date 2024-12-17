@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:students_complaint_app/commons/widgets/custom_textformfield.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
+import 'package:students_complaint_app/utils/constants/text_strings.dart';
 
 class FormSignIn extends StatelessWidget {
   const FormSignIn({
@@ -9,25 +10,25 @@ class FormSignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Form(
+    return Form(
       child: Column(
         children: [
-          // Email Field
-          CTextFormField(
-             keyboardType: TextInputType.emailAddress,
-              label: 'Email',
-              hint: 'abcd@gmail.com',
-              prefixIcon: Icon(Icons.email),
-            ),
-          SizedBox(height: CSizes.spaceBtwInputFields),
-          // Password Field
-        CTextFormField(
-            obscureText: true,
-              label: 'Password',
-              hint: '123@abc',
-               suffixIcon: Icon(Icons.visibility_off),
-            ),
-          
+          // email
+          TextFormField(
+            decoration: const InputDecoration(
+                labelText: CTexts.email,
+                prefixIcon: Icon(Iconsax.direct_right)),
+          ),
+          const SizedBox(
+            height: CSizes.spaceBtwInputFields,
+          ),
+          // password
+          TextFormField(
+            decoration: const InputDecoration(
+                labelText: CTexts.password,
+                prefixIcon: Icon(Iconsax.password_check),
+                suffixIcon: Icon(Iconsax.eye_slash)),
+          ),
         ],
       ),
     );

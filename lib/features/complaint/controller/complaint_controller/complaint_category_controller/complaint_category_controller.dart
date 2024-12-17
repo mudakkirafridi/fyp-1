@@ -8,14 +8,20 @@ import 'package:students_complaint_app/features/complaint/screen/complaints_scre
 
 class ComplaintCategoryController extends GetxController {
   // Lists of categories
-  final RxList<ComplaintCategoryModel> categories = <ComplaintCategoryModel>[].obs;
-  final RxList<ComplaintSubCategoryModel> subCategories = <ComplaintSubCategoryModel>[].obs;
-  final RxList<ComplaintLevel3Model> level3Categories = <ComplaintLevel3Model>[].obs;
+  final RxList<ComplaintCategoryModel> categories =
+      <ComplaintCategoryModel>[].obs;
+  final RxList<ComplaintSubCategoryModel> subCategories =
+      <ComplaintSubCategoryModel>[].obs;
+  final RxList<ComplaintLevel3Model> level3Categories =
+      <ComplaintLevel3Model>[].obs;
 
   // Selected items
-  Rx<ComplaintCategoryModel?> selectedCategory = Rx<ComplaintCategoryModel?>(null);
-  Rx<ComplaintSubCategoryModel?> selectedSubCategory = Rx<ComplaintSubCategoryModel?>(null);
-  Rx<ComplaintLevel3Model?> selectedLevel3Category = Rx<ComplaintLevel3Model?>(null);
+  Rx<ComplaintCategoryModel?> selectedCategory =
+      Rx<ComplaintCategoryModel?>(null);
+  Rx<ComplaintSubCategoryModel?> selectedSubCategory =
+      Rx<ComplaintSubCategoryModel?>(null);
+  Rx<ComplaintLevel3Model?> selectedLevel3Category =
+      Rx<ComplaintLevel3Model?>(null);
 
   // Loading state
   final RxBool isLoading = false.obs;
@@ -53,12 +59,14 @@ class ComplaintCategoryController extends GetxController {
   // Navigation to subcategory screen
   void navigateToSubCategoryScreen(ComplaintCategoryModel category) {
     loadSubCategories(category);
-    Get.to(() => ComplaintSubCategoryScreen()); // Pass the selected category if needed
+    Get.to(() =>
+        const ComplaintSubCategoryScreen()); // Pass the selected category if needed
   }
 
   // Navigation to level 3 category screen
   void navigateToLevel3CategoryScreen(ComplaintSubCategoryModel subCategory) {
     loadLevel3Categories(subCategory);
-    Get.to(() => ComplaintSubCategory3Screen()); // Pass the selected subcategory if needed
+    Get.to(() =>
+        const ComplaintSubCategory3Screen()); // Pass the selected subcategory if needed
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:students_complaint_app/features/authentication/screens/sign_in/widgets/forget_password_section.dart';
-import 'package:students_complaint_app/features/authentication/screens/sign_in/widgets/form_sign.dart';
 import 'package:students_complaint_app/features/authentication/screens/sign_in/widgets/registration_section.dart';
 import 'package:students_complaint_app/features/authentication/screens/sign_in/widgets/signin_elevated_button.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
@@ -53,18 +52,17 @@ class HeaderTextColumnSignIn extends StatelessWidget {
         ),
         const SizedBox(height: CSizes.spaceBtwSections),
         // Login Form
-       const FormSignIn(),
+        //  const FormSignIn(),
         const SizedBox(height: CSizes.spaceBtwItems / 2),
         // Forget Password Link
-      const  ForgetPasswordSignIn(),
+        const ForgetPasswordSignIn(),
         const SizedBox(height: CSizes.spaceBtwSections),
         // Login Button
-      const  SignInElevatedButton(),
+        const SignInElevatedButton(),
         const SizedBox(height: CSizes.spaceBtwSections / 2),
         // Register Section
-       const RegistrationSectionSignIn(),
+        const RegistrationSectionSignIn(),
       ],
     );
   }
 }
-
