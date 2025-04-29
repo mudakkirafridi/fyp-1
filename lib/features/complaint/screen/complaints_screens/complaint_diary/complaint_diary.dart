@@ -1,11 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:students_complaint_app/commons/widgets/custom_text/custom_text.dart';
-import 'package:students_complaint_app/features/complaint/controller/complaint_controller/complaint_controller.dart';
+import 'package:students_complaint_app/features/complaint/controller/complaint_controller/complaint_category_controller/complaint_category_controller.dart';
 import 'package:students_complaint_app/features/complaint/screen/complaints_screens/complaint_category_screen/complaint_category1_screen/complaint_category1_screen.dart';
-import 'package:students_complaint_app/features/complaint/screen/complaints_screens/complaint_dashboard/complaint_dashboard.dart';
+import 'package:students_complaint_app/features/profile/screen/app_drawer.dart';
 import 'package:students_complaint_app/utils/constants/colors.dart';
 import 'package:students_complaint_app/utils/constants/image_strings.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
@@ -19,14 +17,22 @@ class ComplaintDairyScreen extends StatefulWidget {
 
 class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
   // Initialize the controller
-  final controller = Get.put(ComplaintsController());
+  final controller = Get.put(ComplaintCategoryController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    appBar: AppBar(
+      centerTitle: true,
+       iconTheme: const IconThemeData(color: Colors.white), 
+      backgroundColor: CColors.primary,
+      title: Text("GPGC's CMS",style: TextStyle(fontSize: 20,color: CColors.textWhite),),
+      ),
+          drawer: const AppDrawer(),
       body: Stack(children: [
         // show college logo with opicity
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.50,
+          top: MediaQuery.of(context).size.height * 0.30,
           // left: MediaQuery.of(context).size.height * 0.01,
           right: MediaQuery.of(context).size.height * 0.07,
           child: const Opacity(
@@ -40,56 +46,13 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
         Container(
           height: MediaQuery.of(context).size.height,
         ),
-        Container(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.03,
-          ),
-          height: MediaQuery.of(context).size.height * 0.13,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: CColors.primary,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(35),
-              bottomRight: Radius.circular(35),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Get.to(() => const ComplaintsDashboard());
-                },
-                icon: const Icon(
-                  Icons.arrow_back_outlined,
-                  size: 35,
-                  color: CColors.white,
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.19,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: CAppText(
-                  text: "GPGC's CMS",
-                  fontSize: CSizes.fontSizeLg,
-                  color: CColors.white,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 1.5,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
+
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.17,
+          top: MediaQuery.of(context).size.height * 0.05,
           left: MediaQuery.of(context).size.height * 0.09,
           right: MediaQuery.of(context).size.height * 0.05,
           child: const Row(
             children: [
-            
               CAppText(
                 text: "COMPLAINTS DIARY",
                 fontSize: CSizes.fontSizeLg,
@@ -102,7 +65,7 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
           ),
         ),
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.24,
+          top: MediaQuery.of(context).size.height * 0.12,
           left: MediaQuery.of(context).size.height * 0.035,
           right: MediaQuery.of(context).size.height * 0.03,
           child: Column(
@@ -246,7 +209,7 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
         ),
         // FEEDBACKS SECTION STARTS
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.528,
+          top: MediaQuery.of(context).size.height * 0.45,
           left: MediaQuery.of(context).size.height * 0.15,
           // right: MediaQuery.of(context).size.height * 0.05,
           child: const Row(
@@ -275,7 +238,7 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
 // 2-> Negative feedback container
 // 3-> Pending feedback container
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.59,
+          top: MediaQuery.of(context).size.height * 0.52,
           left: MediaQuery.of(context).size.height * 0.03,
           right: MediaQuery.of(context).size.height * 0.03,
           child: Column(
@@ -426,7 +389,8 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
                               borderRadius: BorderRadius.circular(30)),
                           backgroundColor: Colors.blue.shade500,
                           onPressed: () {
-                            Get.to(()=> const ComplaintCategoryOneScreen());
+                            Get.offAll(
+                                () => const ComplaintCategoryOneScreen());
                           },
                           child: const Icon(
                             size: 30,

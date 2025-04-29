@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:students_complaint_app/features/complaint/screen/complaints_screens/complaint_dashboard/complaint_dashboard.dart';
+import 'package:students_complaint_app/features/authentication/controllers/authentication/sign_in_controller.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
 
 class SignInElevatedButton extends StatelessWidget {
@@ -10,13 +10,18 @@ class SignInElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SignInController controller = Get.put(SignInController());
     return SizedBox(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * .07,
       child: ElevatedButton(
-        onPressed: () {
-          Get.to(() => const ComplaintsDashboard());
-        },
+        onPressed:  () async {
+                if (controller.formKey.currentState!.validate()) {
+                  print("========= Login functionality on tap ==========");
+                  await controller.submitForm();
+                  
+                }
+              },
         child: const Text(
           'Sign In',
           style: TextStyle(

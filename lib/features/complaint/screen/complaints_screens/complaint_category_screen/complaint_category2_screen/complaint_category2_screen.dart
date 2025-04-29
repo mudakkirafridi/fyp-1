@@ -52,8 +52,10 @@ class _ComplaintSubCategoryScreenState
                 // App bar title and search icon
                 Row(
                   children: [
-                     Padding(
-                      padding: EdgeInsets.only(right:MediaQuery.of(context).size.width * 0.1),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width * 0.2,
+                          top: MediaQuery.of(context).size.height * 0.02),
                       child: const CAppText(
                         text: "Select Subcategory",
                         fontSize: CSizes.fontSizeLg,
@@ -63,14 +65,14 @@ class _ComplaintSubCategoryScreenState
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.search,
-                        size: 35,
-                        color: CColors.white,
-                      ),
-                    ),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: const Icon(
+                    //     Icons.search,
+                    //     size: 35,
+                    //     color: CColors.white,
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
@@ -91,7 +93,9 @@ class _ComplaintSubCategoryScreenState
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.03,),
+                padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.03,
+                ),
                 child: Obx(
                   () => ListView.separated(
                     itemCount: controller.subCategories.length,
@@ -99,20 +103,18 @@ class _ComplaintSubCategoryScreenState
                       final subCategory = controller.subCategories[index];
                       return ListTile(
                         title: CAppText(
-                          text:subCategory.name,
+                          text: subCategory.name,
                           fontSize: 12,
                           color: CColors.darkGrey,
                           fontWeight: FontWeight.w500,
-                          
                         ),
                         leading: const CircleAvatar(
                           radius: 25,
                           backgroundColor: CColors.grey,
-                          
-                          
                         ),
                         trailing: CircleAvatar(
                           radius: 15,
+                  
                           backgroundColor: CColors.secondary.withOpacity(.2),
                           child: const Icon(
                             Icons.arrow_forward_ios,
@@ -121,7 +123,8 @@ class _ComplaintSubCategoryScreenState
                           ),
                         ),
                         onTap: () {
-                          controller.navigateToLevel3CategoryScreen(subCategory);
+                          controller
+                              .navigateToLevel3CategoryScreen(subCategory);
                         },
                       );
                     },

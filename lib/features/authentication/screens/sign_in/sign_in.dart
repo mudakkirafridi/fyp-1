@@ -14,6 +14,7 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       resizeToAvoidBottomInset: true, // Prevent overflow when keyboard appears
       body: Stack(
@@ -80,8 +81,8 @@ class SignInScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: CSizes.spaceBtwSections),
                     // Login Form
-                    const FormSignIn(),
-                    const SizedBox(height: CSizes.spaceBtwItems / 2),
+                     FormSignIn(),
+                    // const SizedBox(height: CSizes.spaceBtwItems / 2),
                     // Forget Password Link
                     const ForgetPasswordSignIn(),
                     const SizedBox(height: CSizes.spaceBtwSections),

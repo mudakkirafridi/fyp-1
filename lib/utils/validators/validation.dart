@@ -1,5 +1,13 @@
-
 class CValidator {
+  // Empty text validator
+  static String? validEmptyText(String fieldName, String value) {
+    if (value.isEmpty) {
+      return "$fieldName is required.";
+    }
+    return null;
+  }
+
+  // Email validation
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required.';
@@ -15,6 +23,7 @@ class CValidator {
     return null;
   }
 
+  // Password validation
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Password is required.';
@@ -43,20 +52,45 @@ class CValidator {
     return null;
   }
 
+  // Phone number validation
   static String? validatePhoneNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required.';
     }
 
     // Regular expression for phone number validation (assuming a 10-digit US phone number format)
-    final phoneRegExp = RegExp(r'^\d{10}$');
+    final phoneRegExp = RegExp(r'^\+?[0-9]{7,15}$');
 
     if (!phoneRegExp.hasMatch(value)) {
-      return 'Invalid phone number format (10 digits required).';
+      return 'Invalid phone number format.';
     }
 
     return null;
   }
 
-// Add more custom validators as needed for your specific requirements.
+  // Registration number validation
+  static String? validateRegistrationNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Registration number is required.';
+    }
+    return null;
+  }
+
+  // Academic Level validation
+  static String? validateAcademicLevel(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Academic level is required.';
+    }
+    return null;
+  }
+
+  // Terms & conditions checkbox validation
+  static String? validateTermsAccepted(bool value) {
+    if (!value) {
+      return 'You must accept the terms & conditions.';
+    }
+    return null;
+  }
+
+  // Add more custom validators as needed for your specific requirements.
 }

@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:students_complaint_app/features/authentication/controllers/authentication/forget_password_controller.dart';
 import 'package:students_complaint_app/features/authentication/screens/sign_in/sign_in.dart';
 import 'package:students_complaint_app/utils/constants/image_strings.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
@@ -8,7 +8,9 @@ import 'package:students_complaint_app/utils/constants/text_strings.dart';
 import 'package:students_complaint_app/utils/helpers/helper_functions.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-  const ResetPasswordScreen({super.key});
+  ResetPasswordScreen({super.key});
+
+  final ResetPasswordController controller = Get.put(ResetPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +19,8 @@ class ResetPasswordScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-              onPressed: () => Get.offAll(() => const SignInScreen()),
-              icon: const Icon(Icons.close))
+              onPressed: () => Get.offAll(() => SignInScreen()),
+              icon: const Icon(Icons.close)),
         ],
       ),
       body: SingleChildScrollView(
@@ -27,8 +29,9 @@ class ResetPasswordScreen extends StatelessWidget {
           child: Column(
             children: [
               Image(
-                  width: CHelperFunctions.screenWidth() * 0.6,
-                  image: const AssetImage(CImages.deliveredEmailIllustration)),
+                width: CHelperFunctions.screenWidth() * 0.6,
+                image: const AssetImage(CImages.deliveredEmailIllustration),
+              ),
               const SizedBox(
                 height: CSizes.spaceBtwSections,
               ),
@@ -56,16 +59,14 @@ class ResetPasswordScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text(CTexts.done)),
+                  onPressed: controller.done,
+                  child: const Text(CTexts.done),
+                ),
               ),
               const SizedBox(
                 height: CSizes.spaceBtwItems,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                    onPressed: () {}, child: const Text(CTexts.resendEmail)),
-              ),
+              
             ],
           ),
         ),

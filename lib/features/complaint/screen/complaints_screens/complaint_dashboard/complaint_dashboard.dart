@@ -1,4 +1,6 @@
 // views/complaints_dashboard.dart
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:students_complaint_app/commons/widgets/custom_text/custom_text.dart';
@@ -8,8 +10,24 @@ import 'package:students_complaint_app/utils/constants/colors.dart';
 import 'package:students_complaint_app/utils/constants/image_strings.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
 
-class ComplaintsDashboard extends StatelessWidget {
+class ComplaintsDashboard extends StatefulWidget {
   const ComplaintsDashboard({super.key});
+
+  @override
+  State<ComplaintsDashboard> createState() => _ComplaintsDashboardState();
+}
+
+class _ComplaintsDashboardState extends State<ComplaintsDashboard> {
+  String? userName;
+
+@override
+ initState() {
+  fetchUserData();
+  
+  super.initState();
+}
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +40,7 @@ class ComplaintsDashboard extends StatelessWidget {
           padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.04,
           ),
-          height: MediaQuery.of(context).size.height * 0.13,
+          height: MediaQuery.of(context).size.height * 0.15,
           width: double.infinity,
           decoration: const BoxDecoration(
               color: CColors.primary,
@@ -94,12 +112,12 @@ class ComplaintsDashboard extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.15,
+          top: MediaQuery.of(context).size.height * 0.17,
           // left: MediaQuery.of(context).size.height * 0.01,
           right: MediaQuery.of(context).size.height * 0.07,
-          child: const Row(
+          child: Row(
             children: [
-              CAppText(
+              const CAppText(
                 text: "WELCOME ",
                 fontSize: CSizes.fontSizeLg,
                 color: CColors.primary,
@@ -107,19 +125,20 @@ class ComplaintsDashboard extends StatelessWidget {
                 letterSpacing: 1.5,
                 textAlign: TextAlign.center,
               ),
-              CAppText(
-                text: "Mansoor Khan",
-                fontSize: CSizes.fontSizeLg,
-                color: CColors.secondary,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1,
-                textAlign: TextAlign.center,
-              ),
+            CAppText(
+    text:  userName.toString(),
+    fontSize: CSizes.fontSizeLg,
+    color: CColors.secondary,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 1,
+    textAlign: TextAlign.center,
+  )
+
             ],
           ),
         ),
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.21,
+          top: MediaQuery.of(context).size.height * 0.23,
           left: MediaQuery.of(context).size.height * 0.03,
           right: MediaQuery.of(context).size.height * 0.0285,
           child:
@@ -165,6 +184,26 @@ class ComplaintsDashboard extends StatelessWidget {
       ]),
     );
   }
+
+fetchUserData() async {
+  final User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+
+    if (userDoc.exists) {
+      final userData = userDoc.data() as Map<String, dynamic>;
+      
+     setState(() {
+       userName = userData['full_name'];
+     });
+      // Do something with the user data
+    }
+  }
+}
+
 }
 ///
 ///

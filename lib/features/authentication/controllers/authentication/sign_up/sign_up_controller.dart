@@ -1,148 +1,149 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:students_complaint_app/features/authentication/model/authentication_model/sign_up_model/sign_up_model.dart';
+import 'package:students_complaint_app/features/complaint/screen/complaints_screens/complaint_diary/complaint_diary.dart';
+import 'package:students_complaint_app/utils/constants/colors.dart';
 
 class SignUpController extends GetxController {
+  RxBool isPasswordVisible = true.obs;
+  // Form key for validation
   final formKey = GlobalKey<FormState>();
-  final PageController pageController = PageController();
-  final SignUpModel model = SignUpModel();
 
-  // Text controllers for form fields
-  final fullNameController = TextEditingController().obs;
-  final contactController = TextEditingController().obs;
-  final emailController = TextEditingController().obs;
-  final enrollmentController = TextEditingController().obs;
-  final passwordController = TextEditingController().obs;
-  final confirmPasswordController = TextEditingController().obs;
-
-  // Firebase
+  // Firebase services
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Dropdown and checkbox state
+  // Text editing controllers
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneNoController = TextEditingController();
+  final registrationNoController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  // Reactive state for academic level and terms acceptance
   var academicLevel = "Bachelor’s".obs;
-  var academicProgram = "BS Computer Science".obs;
   var termsAccepted = false.obs;
 
-  // Registration key state
-  var registrationKey = ''.obs;
-  var registrationKeyError = RxnString();
+  // Dropdown options for academic levels
+  final List<String> academicLevels = [
+    "Bachelor’s",
+    "Intermediate",
+  ];
 
-  // Dropdown options
-  final List<String> academicLevels = ['Bachelor’s', 'Intermediate'];
-  final Map<String, List<String>> academicPrograms = {
-    'Bachelor’s': [
-      'BS Computer Science',
-      'BS Political Science',
-      'BS Urdu',
-      'BS Zoology',
-    ],
-    'Intermediate': ['FA', 'FSc'],
-  };
-
-  // Programs based on selected academic level
-  List<String> get programsForSelectedLevel =>
-      academicPrograms[academicLevel.value] ?? [];
-
-  // Validate Registration Key
-  Future<bool> validateRegistrationKey(String key) async {
-    try {
-      final doc =
-          await _firestore.collection('registration_keys').doc(key).get();
-      return doc.exists; // Check if the registration key exists
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to validate registration key: $e');
-      return false;
-    }
-  }
-
-  // Create Firebase User
+  // Method to create a Firebase user
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } catch (e) {
-      Get.snackbar('Error', 'Failed to create account: $e');
+      Get.snackbar('Error', 'Failed to create account: $e',
+          colorText: CColors.textWhite,
+          backgroundColor: CColors.warning,
+          snackPosition: SnackPosition.BOTTOM);
       rethrow;
     }
   }
 
-  // Save User Data to Firestore
+  // Method to save user data in Firestore
   Future<void> saveUserData() async {
     try {
       final user = _auth.currentUser;
       if (user != null) {
         final signUpData = SignUpModel(
-          fullName: fullNameController.value.text,
-          contactNo: contactController.value.text,
-          email: emailController.value.text,
-          enrollmentNumber: enrollmentController.value.text,
+          id: user.uid,
+          fullName: fullNameController.text,
+          email: emailController.text,
+          phoneNo: phoneNoController.text,
+          registrationNo: registrationNoController.text,
           academicLevel: academicLevel.value,
-          academicProgram: academicProgram.value,
           termsAccepted: termsAccepted.value,
         );
         await _firestore
             .collection('users')
             .doc(user.uid)
-            .set(signUpData.toMap());
+            .set(signUpData.toJson());
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to save user data: $e');
+      Get.snackbar('Error', 'Failed to save user data: $e',
+          colorText: CColors.textWhite,
+          backgroundColor: CColors.warning,
+          snackPosition: SnackPosition.BOTTOM);
       rethrow;
     }
   }
-
-  // Final Submission
+/// SUBMIT FORM BUTTON
   Future<void> submitForm() async {
-    if (formKey.currentState?.validate() == true) {
-      // Validate registration key
-      final isValidKey = await validateRegistrationKey(registrationKey.value);
-      if (!isValidKey) {
-        registrationKeyError.value = 'Invalid registration key';
-        return;
-      }
+  if (formKey.currentState?.validate() == true) {
+    if (!termsAccepted.value) {
+      Get.snackbar('Error', 'You must accept the terms and conditions.',
+          colorText: CColors.textWhite,
+          backgroundColor: CColors.warning,
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
+    try {
+      // Show loading dialog
+      Get.dialog(
+        Center(child: CircularProgressIndicator()), // Add a loading indicator
+        barrierDismissible: false, // Prevent closing the dialog while processing
+      );
 
       // Create Firebase user
       await createUserWithEmailAndPassword(
-          emailController.value.text, passwordController.value.text);
+          emailController.text, passwordController.text);
 
       // Save user data to Firestore
       await saveUserData();
 
-      Get.snackbar('Success', 'Account created successfully');
-    }
-  }
+      // Dismiss the loader
+      Get.back();
 
-  // Navigation
-  void nextPage() {
-    if (formKey.currentState?.validate() == true) {
-      pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
+      // Show success message
+      Get.snackbar(
+        snackPosition: SnackPosition.BOTTOM,
+        'Success',
+        'Account created successfully!',
+        colorText: CColors.textWhite,
+        backgroundColor: CColors.success,
+      );
+
+      // Delay the navigation by 2-3 seconds
+      Future.delayed(Duration(seconds: 2), () {
+        Get.offAll(() => const ComplaintDairyScreen()); // Navigate to the ComplaintsDashboard
+      });
+    } catch (e) {
+      // Dismiss the loader in case of error
+      Get.back();
+     
+
+      
+      // Handle errors if needed
+      Get.snackbar(
+        'Error',
+        'Something went wrong, please try again.',
+        colorText: CColors.textWhite,
+        backgroundColor: CColors.warning,
+        snackPosition: SnackPosition.BOTTOM,
+        
       );
     }
   }
+}
 
-  void previousPage() {
-    pageController.previousPage(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.ease,
-    );
-  }
-
-  // Dispose controllers when done
+  // Dispose controllers to avoid memory leaks
   @override
   void onClose() {
-    fullNameController.value.dispose();
-    contactController.value.dispose();
-    emailController.value.dispose();
-    enrollmentController.value.dispose();
-    passwordController.value.dispose();
-    confirmPasswordController.value.dispose();
-    pageController.dispose();
+    fullNameController.dispose();
+    emailController.dispose();
+    phoneNoController.dispose();
+    registrationNoController.dispose();
+    passwordController.dispose();
     super.onClose();
+    
   }
 }

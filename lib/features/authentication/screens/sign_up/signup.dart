@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:students_complaint_app/features/authentication/controllers/authentication/sign_up/sign_up_controller.dart';
-import 'package:students_complaint_app/features/authentication/screens/sign_up/verify_email.dart';
 import 'package:students_complaint_app/features/authentication/screens/sign_up/widgets/container_green.dart';
 import 'package:students_complaint_app/features/authentication/screens/sign_up/widgets/title_section.dart';
 import 'package:students_complaint_app/utils/constants/sizes.dart';
 import 'package:students_complaint_app/utils/constants/text_strings.dart';
+import 'package:students_complaint_app/utils/validators/validation.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SignUpController controller = SignUpController();
+    final SignUpController controller = Get.put(
+        SignUpController()); // Ensure the controller is properly initialized
 
     return Scaffold(
       body: SafeArea(
@@ -43,118 +44,176 @@ class SignUpScreen extends StatelessWidget {
                         const TitleSection(),
                         const SizedBox(height: CSizes.spaceBtwSections),
                         Form(
-                            child: Column(
-                          children: [
-                            /* --------------- Form ----------*/
-                            // full name
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: CTexts.fullName,
-                                prefixIcon: Icon(Iconsax.user),
-                              ),
-                            ),
-                            const SizedBox(height: CSizes.spaceBtwItems),
-                            // full name
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: CTexts.email,
-                                prefixIcon: Icon(Iconsax.direct_right),
-                              ),
-                            ),
-                            const SizedBox(height: CSizes.spaceBtwItems),
-                            // phone number
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: CTexts.phoneNo,
-                                prefixIcon: Icon(Iconsax.call),
-                              ),
-                            ),
-
-                            /// password
-                            const SizedBox(height: CSizes.spaceBtwItems),
-                            // phone number
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: CTexts.password,
-                                prefixIcon: Icon(
-                                  Iconsax.password_check,
-                                ),
-                                suffixIcon: Icon(Iconsax.eye_slash),
-                              ),
-                            ),
-                            const SizedBox(height: CSizes.spaceBtwItems),
-
-                            /// registeration number
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                labelText: CTexts.registrationNo,
-                                prefixIcon: Icon(Iconsax.hashtag),
-                              ),
-                            ),
-                            const SizedBox(height: CSizes.spaceBtwItems),
-
-                            /// academic level
-                            Obx(
-                              () => DropdownButtonFormField<String>(
-                                value: controller.academicLevel
-                                    .value, // Current selected value
+                          key: controller.formKey,
+                          child: Column(
+                            children: [
+                              // Full Name
+                              TextFormField(
+                                controller: controller.fullNameController,
                                 decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  labelText: CTexts.fullName,
+                                  prefixIcon: Icon(Iconsax.user),
                                 ),
-                                items: controller.academicLevels.map((level) {
-                                  return DropdownMenuItem<String>(
-                                    value: level, // Value to be returned
-                                    child: Text(level), // Displayed text
-                                  );
-                                }).toList(),
-                                onChanged: (newValue) {
-                                  controller.academicLevel.value =
-                                      newValue!; // Update the selected value
+                                validator: (value) {
+                                  return CValidator.validEmptyText(
+                                      CTexts.fullName, value!);
                                 },
                               ),
-                            ),
-                            const SizedBox(height: CSizes.spaceBtwItems),
+                              const SizedBox(height: CSizes.spaceBtwItems),
 
-                            /// terms & conditions
-                            Row(
-                              children: [
-                                SizedBox(
-                                    height: 24,
-                                    width: 24,
-                                    child: Checkbox(
-                                        value: (true), onChanged: (Value) {})),
-                                const SizedBox(
-                                  width: 5,
+                              // Email
+                              TextFormField(
+                                controller: controller.emailController,
+                                decoration: const InputDecoration(
+                                  labelText: CTexts.email,
+                                  prefixIcon: Icon(Iconsax.direct_right),
                                 ),
-                                const Text.rich(TextSpan(children: [
-                                  TextSpan(
-                                    text: CTexts.iAgreeTo,
-                                  ),
-                                  TextSpan(
-                                      text: CTexts.privacyPolicy,
-                                      style: TextStyle(color: Colors.blue)),
-                                  TextSpan(text: CTexts.and),
-                                  TextSpan(
-                                      text: CTexts.termsOfUse,
-                                      style: TextStyle(color: Colors.blue)),
-                                ])),
-                              ],
-                            ),
-
-                            /// create account button
-                            const SizedBox(
-                              height: CSizes.spaceBtwSections,
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () =>
-                                    Get.to(() => const VerifyEmailScreen()),
-                                child: const Text(CTexts.createAccount),
+                                validator: (value) {
+                                  return CValidator.validateEmail(value);
+                                },
                               ),
-                            ),
-                          ],
-                        ))
+                              const SizedBox(height: CSizes.spaceBtwItems),
+
+                              // Phone Number
+                              TextFormField(
+                                controller: controller.phoneNoController,
+                                decoration: const InputDecoration(
+                                  labelText: CTexts.phoneNo,
+                                  prefixIcon: Icon(Iconsax.call),
+                                ),
+                                validator: (value) {
+                                  return CValidator.validatePhoneNumber(value);
+                                },
+                              ),
+
+                              const SizedBox(height: CSizes.spaceBtwItems),
+
+                              // Password
+                              Obx(
+                                () => TextFormField(
+                                  controller: controller.passwordController,
+                                  obscureText:
+                                      controller.isPasswordVisible.value,
+                                  decoration: InputDecoration(
+                                    labelText: CTexts.password,
+                                    prefixIcon:
+                                        const Icon(Iconsax.password_check),
+                                    suffixIcon: controller
+                                            .isPasswordVisible.value
+                                        ? IconButton(
+                                            icon: const Icon(Iconsax.eye_slash),
+                                            onPressed: () {
+                                              controller
+                                                      .isPasswordVisible.value =
+                                                  !controller
+                                                      .isPasswordVisible.value;
+                                            },
+                                          )
+                                        : IconButton(
+                                            icon: const Icon(Iconsax.eye),
+                                            onPressed: () {
+                                              controller
+                                                      .isPasswordVisible.value =
+                                                  !controller
+                                                      .isPasswordVisible.value;
+                                            },
+                                          ),
+                                  ),
+                                  validator: (value) {
+                                    return CValidator.validatePassword(value);
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: CSizes.spaceBtwItems),
+
+                              // Registration Number
+                              TextFormField(
+                                controller: controller.registrationNoController,
+                                decoration: const InputDecoration(
+                                  labelText: CTexts.registrationNo,
+                                  prefixIcon: Icon(Iconsax.hashtag),
+                                ),
+                                validator: (value) {
+                                  return CValidator.validateRegistrationNumber(
+                                      value);
+                                },
+                              ),
+                              const SizedBox(height: CSizes.spaceBtwItems),
+
+                              // Academic Level Dropdown
+                              Obx(
+                                () => DropdownButtonFormField<String>(
+                                  value: controller.academicLevel.value,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  items: controller.academicLevels.map((level) {
+                                    return DropdownMenuItem<String>(
+                                      value: level,
+                                      child: Text(level),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValue) {
+                                    controller.academicLevel.value = newValue!;
+                                  },
+                                  validator: (value) {
+                                    return CValidator.validateAcademicLevel(
+                                        value);
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: CSizes.spaceBtwItems),
+
+                              // Terms & Conditions Checkbox
+                              Row(
+                                children: [
+                                  Obx(
+                                    () => SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: Checkbox(
+                                        value: controller.termsAccepted.value,
+                                        onChanged: (value) {
+                                          controller.termsAccepted.value =
+                                              value!;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text.rich(TextSpan(children: [
+                                    TextSpan(text: CTexts.iAgreeTo),
+                                    TextSpan(
+                                      text: CTexts.privacyPolicy,
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                    TextSpan(text: CTexts.and),
+                                    TextSpan(
+                                      text: CTexts.termsOfUse,
+                                      style: TextStyle(color: Colors.blue),
+                                    ),
+                                  ])),
+                                ],
+                              ),
+
+                              const SizedBox(height: CSizes.spaceBtwSections),
+
+                              // Create Account Button
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (controller.formKey.currentState!
+                                        .validate()) {
+                                      controller.submitForm();
+                                    }
+                                  },
+                                  child: const Text(CTexts.createAccount),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
