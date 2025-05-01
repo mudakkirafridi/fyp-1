@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:students_complaint_app/commons/widgets/custom_text/custom_text.dart';
+import 'package:students_complaint_app/features/complaint/complain_diary_screen.dart';
 import 'package:students_complaint_app/features/complaint/controller/complaint_controller/complaint_category_controller/complaint_category_controller.dart';
 import 'package:students_complaint_app/features/complaint/screen/complaints_screens/complaint_category_screen/complaint_category1_screen/complaint_category1_screen.dart';
 import 'package:students_complaint_app/features/profile/screen/app_drawer.dart';
@@ -65,148 +66,78 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
           ),
         ),
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.12,
-          left: MediaQuery.of(context).size.height * 0.035,
-          right: MediaQuery.of(context).size.height * 0.03,
-          child: Column(
-            children: [
-              // Totla Complaint Container
-              Container(
-                height: MediaQuery.of(context).size.height * 0.12,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: CColors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      CAppText(
-                        text: '120',
-                        fontSize: CSizes.fontSizeLg * 1.5,
-                        color: Colors.blue.shade700,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.015,
-                      ),
-                      const CAppText(
-                        text: "TOTAL COMPLAINTS",
-                        color: Colors.blue,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              // This row contains three container
-              // 1-> Open Complaints
-              // 2-> closed complaints
-              // 3-> Droped complaints
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  top: MediaQuery.of(context).size.height * 0.12,
+  left: MediaQuery.of(context).size.height * 0.035,
+  right: MediaQuery.of(context).size.height * 0.03,
+  child: FutureBuilder<Map<String, int>>(
+    future: fetchComplaintCounts(),
+    builder: (context, snapshot) {
+      if (!snapshot.hasData) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      final data = snapshot.data!;
+      return Column(
+        children: [
+          // Total complaints
+          Container(
+            height: MediaQuery.of(context).size.height * 0.12,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: CColors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // open complaints container
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    width: MediaQuery.of(context).size.width * 0.26,
-                    decoration: BoxDecoration(
-                      color: CColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          CAppText(
-                            text: '12',
-                            fontSize: CSizes.fontSizeLg * 1.5,
-                            color: Colors.orange.shade700,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.015,
-                          ),
-                          CAppText(
-                            text: "OPEN",
-                            color: Colors.orange.shade400,
-                          )
-                        ],
-                      ),
-                    ),
+                  CAppText(
+                    text: '${data['total']}',
+                    fontSize: CSizes.fontSizeLg * 1.5,
+                    color: Colors.blue.shade700,
+                    fontWeight: FontWeight.w600,
                   ),
-                  // Colsed container
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    width: MediaQuery.of(context).size.width * 0.26,
-                    decoration: BoxDecoration(
-                      color: CColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const CAppText(
-                            text: '0',
-                            fontSize: CSizes.fontSizeLg * 1.5,
-                            color: CColors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.015,
-                          ),
-                          const CAppText(
-                            text: "CLOSED",
-                            color: CColors.secondary,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Dropped container
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    width: MediaQuery.of(context).size.width * 0.26,
-                    decoration: BoxDecoration(
-                      color: CColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          CAppText(
-                            text: '0',
-                            fontSize: CSizes.fontSizeLg * 1.5,
-                            color: Colors.deepPurple.shade700,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.015,
-                          ),
-                          const CAppText(
-                            text: "DROPED",
-                            color: Colors.purple,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                  const CAppText(
+                    text: "TOTAL COMPLAINTS",
+                    color: Colors.blue,
+                  )
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildCountCard(
+                count: data['open']!,
+                label: "OPEN",
+                color: Colors.orange.shade700,
+                textColor: Colors.orange.shade400,
+              ),
+              _buildCountCard(
+                count: data['closed']!,
+                label: "CLOSED",
+                color: CColors.primary,
+                textColor: CColors.secondary,
+              ),
+              _buildCountCard(
+                count: data['dropped']!,
+                label: "DROPPED",
+                color: Colors.deepPurple.shade700,
+                textColor: Colors.purple,
+              ),
+            ],
+          )
+        ],
+      );
+    },
+  ),
+),
+
         // FEEDBACKS SECTION STARTS
         Positioned(
           top: MediaQuery.of(context).size.height * 0.45,
@@ -422,4 +353,43 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
       ]),
     );
   }
+  Widget _buildCountCard({
+  required int count,
+  required String label,
+  required Color color,
+  required Color textColor,
+}) {
+  return Container(
+    height: MediaQuery.of(context).size.height * 0.12,
+    width: MediaQuery.of(context).size.width * 0.26,
+    decoration: BoxDecoration(
+      color: CColors.white,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          CAppText(
+            text: '$count',
+            fontSize: CSizes.fontSizeLg * 1.5,
+            color: color,
+            fontWeight: FontWeight.w600,
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+          CAppText(
+            text: label,
+            color: textColor,
+          )
+        ],
+      ),
+    ),
+  );
 }
+
+}
+
+
+

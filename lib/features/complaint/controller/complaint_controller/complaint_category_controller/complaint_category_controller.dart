@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,7 @@ class ComplaintCategoryController extends GetxController {
           subCategory: '',
           level3Category: '',
           status: '',
-          timestamp: DateTime.now())
+          timestamp: DateTime.now(), uid: '')
       .obs;
 
   // Variables to track complaint and feedback counts
@@ -162,47 +163,58 @@ class ComplaintCategoryController extends GetxController {
 
   // Method to add a new complaint to Firebase
   Future<void> addComplaintToFirebase(
-      String title,
-      String description,
-      String category,
-      String status,
-      String subCategory,
-      String level3Category) async {
-    try {
-      // Show loading dialog
-      Get.dialog(
-        const Center(
-          child: CircularProgressIndicator(color: CColors.white,),
-        ),
-        barrierDismissible: false,
-      );
-      ComplaintModel newComplaint = ComplaintModel(
-        title: title,
-        description: description,
-        category: category,
-        status: status,
-        timestamp: DateTime.now(),
-        subCategory: subCategory,
-        level3Category: level3Category,
-      );
-      await FirebaseFirestore.instance
-          .collection('complaints')
-          .add(newComplaint.toMap());
-      // Close the loading dialog
-      // Get.back();
-      // Navigate back to
-      Get.offAll(()=> const ComplaintDairyScreen(),duration: const Duration(seconds: 1));
-      UiHelper().customSnackbar(
-          title: "Success", message: "New complaint added successfully");
-// Clear input fields
-      titleController.clear();
-      descriptionController.clear();
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to add complaint: $e');
-      UiHelper().customSnackbar(
-          title: "Error", message: 'Failed to add complaint: $e');
+    String title,
+    String description,
+    String category,
+    String status,
+    String subCategory,
+    String level3Category) async {
+  try {
+    // Show loading dialog
+    Get.dialog(
+      const Center(
+        child: CircularProgressIndicator(color: CColors.white),
+      ),
+      barrierDismissible: false,
+    );
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("User not logged in");
     }
+
+    ComplaintModel newComplaint = ComplaintModel(
+      title: title,
+      description: description,
+      category: category,
+      status: status,
+      timestamp: DateTime.now(),
+      subCategory: subCategory,
+      level3Category: level3Category,
+      uid: user.uid, // <-- assign UID
+    );
+
+    await FirebaseFirestore.instance
+        .collection('complaints')
+        .add(newComplaint.toMap());
+
+    // Navigate back
+    Get.offAll(() => const ComplaintDairyScreen(),
+        duration: const Duration(seconds: 1));
+
+    UiHelper().customSnackbar(
+        title: "Success", message: "New complaint added successfully");
+
+    // Clear input fields
+    titleController.clear();
+    descriptionController.clear();
+  } catch (e) {
+    Get.snackbar('Error', 'Failed to add complaint: $e');
+    UiHelper().customSnackbar(
+        title: "Error", message: 'Failed to add complaint: $e');
   }
+}
+
 
   // Method to handle user feedback on complaints
   void submitFeedback(int complaintId, String feedbackType) {

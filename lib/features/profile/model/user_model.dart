@@ -23,17 +23,16 @@ class UserModel {
 
   /// Create a UserModel from Firestore DocumentSnapshot
   factory UserModel.fromMap(Map<String, dynamic>? data, String documentId) {
-    if (data == null) {
-      throw Exception("User data is null");
-    }
-    return UserModel(
-      uid: documentId,
-      name: data['name'] ?? '',
-      email: data['email'] ?? '',
-      phoneNumber: data['phoneNumber'] ?? '',
-    );
+  if (data == null) {
+    throw Exception("User data is null");
   }
-
+  return UserModel(
+    uid: documentId,
+    name: data['full_name'] ?? '',
+    email: data['email'] ?? '',
+    phoneNumber: data['phone_no'] ?? '',
+  );
+}
   /// CopyWith method to update specific fields
   UserModel copyWith({
     String? name,

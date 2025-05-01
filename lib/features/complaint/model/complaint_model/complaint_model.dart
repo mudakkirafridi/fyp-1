@@ -9,6 +9,7 @@ class ComplaintModel {
   // final int closedCount; // Closed complaints count (if applicable)
   // final int droppedCount; // Dropped complaints count (if applicable)
   final DateTime timestamp; // Time when the complaint was created
+  final String uid;
 
   ComplaintModel({
     required this.title,
@@ -20,6 +21,7 @@ class ComplaintModel {
     // this.openCount = 0,
     // this.closedCount = 0,
     // this.droppedCount = 0,
+     required this.uid,
     required this.timestamp,
   });
 
@@ -35,6 +37,7 @@ class ComplaintModel {
       // 'openCount': openCount,
       // 'closedCount': closedCount,
       // 'droppedCount': droppedCount,
+      'uid': uid,
       'timestamp': timestamp.toIso8601String(), // Convert timestamp to string for Firestore
     };
   }
@@ -51,6 +54,7 @@ class ComplaintModel {
       // openCount: map['openCount'] ?? 0,
       // closedCount: map['closedCount'] ?? 0,
       // droppedCount: map['droppedCount'] ?? 0,
+      uid: map['uid'],
       timestamp: DateTime.parse(map['timestamp'] ?? DateTime.now().toIso8601String()), // Parse timestamp
     );
   }
