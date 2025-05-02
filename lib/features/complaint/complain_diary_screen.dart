@@ -31,6 +31,6 @@ Future<Map<String, int>> fetchComplaintCounts() async {
     };
   } catch (e) {
     print('Error: $e');
-    return {'total': 0, 'open': 0, 'closed': 0, 'dropped': 0};
+    return {'total': 00, 'open': 00, 'closed': 00, 'dropped': 00};
   }
 }
