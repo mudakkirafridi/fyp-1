@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:students_complaint_app/commons/widgets/custom_text/custom_text.dart';
 import 'package:students_complaint_app/features/complaint/complain_diary_screen.dart';
 import 'package:students_complaint_app/features/complaint/controller/complaint_controller/complaint_category_controller/complaint_category_controller.dart';
+import 'package:students_complaint_app/features/complaint/screen/all_compaints_screen/all_complain_screen.dart';
 import 'package:students_complaint_app/features/complaint/screen/complaints_screens/complaint_category_screen/complaint_category1_screen/complaint_category1_screen.dart';
 import 'package:students_complaint_app/features/profile/screen/app_drawer.dart';
 import 'package:students_complaint_app/utils/constants/colors.dart';
@@ -100,9 +101,15 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                  const CAppText(
-                    text: "TOTAL COMPLAINTS",
-                    color: Colors.blue,
+                  InkWell(
+                    onTap: (){
+                      // i want total complaints screen in this 
+                      Get.to(AllComplaintsScreen());
+                    },
+                    child: const CAppText(
+                      text: "TOTAL COMPLAINTS",
+                      color: Colors.blue,
+                    ),
                   )
                 ],
               ),
