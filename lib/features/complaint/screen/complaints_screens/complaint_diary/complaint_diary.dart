@@ -120,20 +120,20 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildCountCard(
-                count: data['open']!,
-                label: "OPEN",
+                count: data['Pending']!,
+                label: "Pending",
                 color: Colors.orange.shade700,
                 textColor: Colors.orange.shade400,
               ),
               _buildCountCard(
-                count: data['closed']!,
-                label: "CLOSED",
+                count: data['In Progress']!,
+                label: "In Progress",
                 color: CColors.primary,
                 textColor: CColors.secondary,
               ),
               _buildCountCard(
-                count: data['dropped']!,
-                label: "DROPPED",
+                count: data['Resolved']!,
+                label: "Resolved",
                 color: Colors.deepPurple.shade700,
                 textColor: Colors.purple,
               ),
