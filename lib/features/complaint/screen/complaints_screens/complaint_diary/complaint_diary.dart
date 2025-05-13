@@ -5,6 +5,7 @@ import 'package:students_complaint_app/features/complaint/complain_diary_screen.
 import 'package:students_complaint_app/features/complaint/controller/complaint_controller/complaint_category_controller/complaint_category_controller.dart';
 import 'package:students_complaint_app/features/complaint/screen/all_compaints_screen/all_complain_screen.dart';
 import 'package:students_complaint_app/features/complaint/screen/complaints_screens/complaint_category_screen/complaint_category1_screen/complaint_category1_screen.dart';
+import 'package:students_complaint_app/features/filtered_complain_screen/filtered_complain_screen.dart';
 import 'package:students_complaint_app/features/profile/screen/app_drawer.dart';
 import 'package:students_complaint_app/utils/constants/colors.dart';
 import 'package:students_complaint_app/utils/constants/image_strings.dart';
@@ -124,6 +125,7 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
                 label: "Pending",
                 color: Colors.orange.shade700,
                 textColor: Colors.orange.shade400,
+                
               ),
               _buildCountCard(
                 count: data['In Progress']!,
@@ -360,41 +362,51 @@ class _ComplaintDairyScreenState extends State<ComplaintDairyScreen> {
       ]),
     );
   }
-  Widget _buildCountCard({
+// Update with actual path
+
+Widget _buildCountCard({
   required int count,
   required String label,
   required Color color,
   required Color textColor,
 }) {
-  return Container(
-    height: MediaQuery.of(context).size.height * 0.12,
-    width: MediaQuery.of(context).size.width * 0.26,
-    decoration: BoxDecoration(
-      color: CColors.white,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          CAppText(
-            text: '$count',
-            fontSize: CSizes.fontSizeLg * 1.5,
-            color: color,
-            fontWeight: FontWeight.w600,
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-          CAppText(
-            text: label,
-            color: textColor,
-          )
-        ],
+  return InkWell(
+    onTap: () {
+      Get.to(() => FilteredComplaintsScreen(status: label));
+    },
+    child: Container(
+      height: MediaQuery.of(Get.context!).size.height * 0.12,
+      width: MediaQuery.of(Get.context!).size.width * 0.26,
+      decoration: BoxDecoration(
+        color: CColors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            CAppText(
+              text: '$count',
+              fontSize: CSizes.fontSizeLg * 1.5,
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
+            SizedBox(
+              height: MediaQuery.of(Get.context!).size.height * 0.015,
+            ),
+            CAppText(
+              text: label.toUpperCase(),
+              color: textColor,
+            )
+          ],
+        ),
       ),
     ),
   );
 }
+
 
 }
 

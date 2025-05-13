@@ -41,47 +41,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 Future<Map<String, int>> fetchComplaintCounts() async {
   try {
     final uid = FirebaseAuth.instance.currentUser?.uid;
-    if (uid == null) return {
-      'total': 0,
-      'Pending': 0,
-      'In Progress': 0,
-      'Resolved': 0,
-    };
+    if (uid == null) return {'total': 0, 'Pending': 0, 'In Progress': 0, 'Resolved': 0};
 
     final snapshot = await FirebaseFirestore.instance
         .collection('complaints')
         .where('uid', isEqualTo: uid)
         .get();
 
+    int total = snapshot.docs.length;
     int pending = 0;
     int inProgress = 0;
     int resolved = 0;
 
     for (var doc in snapshot.docs) {
       final status = doc['status'].toString().toLowerCase();
-      if (status == 'pending') {
-        pending++;
-      } else if (status == 'in progress') {
-        inProgress++;
-      } else if (status == 'resolved') {
-        resolved++;
-      }
+      if (status == 'pending') pending++;
+      else if (status == 'in progress') inProgress++;
+      else if (status == 'resolved') resolved++;
     }
 
     return {
-      'total': snapshot.docs.length,
+      'total': total,
       'Pending': pending,
       'In Progress': inProgress,
       'Resolved': resolved,
     };
   } catch (e) {
     print('Error: $e');
-    return {
-      'total': 0,
-      'Pending': 0,
-      'In Progress': 0,
-      'Resolved': 0,
-    };
+    return {'total': 0, 'Pending': 0, 'In Progress': 0, 'Resolved': 0};
   }
 }
+
 
